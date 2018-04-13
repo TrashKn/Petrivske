@@ -2403,7 +2403,7 @@ section.location-details .label .label-element i:before {
         margin: 0 30px;
     }
 
-    section.location-details .location-details-map {
+    #mapholder {
         width: -webkit-calc( 100% - 470px );
         width: -moz-calc( 100% - 470px );
         width: calc( 100% - 470px );
@@ -2436,7 +2436,7 @@ section.location-details .label .label-element i:before {
         margin: 0 30px;
     }
 
-    section.location-details .location-details-map {
+    #mapholder {
         width: -webkit-calc( 100% - 570px );
         width: -moz-calc( 100% - 570px );
         width: calc( 100% - 570px );
