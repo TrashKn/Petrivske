@@ -16,7 +16,7 @@ namespace Petrivske.Controllers
         private OldDatabase db = new OldDatabase();
 
         public string UploadImage(HttpPostedFileBase upload)
-        {
+        {            
             if (Request.Files.Count > 0)
             {
                 var file = Request.Files[0];
