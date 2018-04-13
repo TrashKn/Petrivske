@@ -8,14 +8,19 @@
 <div class="big-wrapper" style="margin-top:190px">
     <div class="wrapper">
         <div class="container">
+            @*<div class="row">
+                <div class="col-md-12">
+                    <div class="images">
+                        <div class="image">
+                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Spacious bedroom with modern furniture" />
+                        </div>
+                    </div>
+                </div>
+            </div>*@
             <div class="row">
                 <div class="col-md-8">
                     <article class="blog-post">
                         <h2><a href="/blog-single.html">@Model.Title</a></h2>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                        <p><a href="~/Pages/Edit/Golova">Редагувати цю сторінку</a></p>
-                        }
                         <div class="facebook-like-share-button">
                             <div class="fb-like" data-href="https://facebook.com/envato" data-layout="box_count" data-action="like" data-size="small" data-show-faces="false" data-share="false">
                             </div>
@@ -145,5 +150,32 @@
 </div>
 
 
+@*<h2>Details</h2>
 
+<div>
+    <h4>Page</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
 
