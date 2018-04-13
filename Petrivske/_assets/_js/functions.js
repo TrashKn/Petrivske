@@ -228,7 +228,7 @@ $( document ).ready( function() {
 
                 var contents = $( this ).find( '.property-summary-contents' );
                 var activeContent = contents.find( '.property-summary-content.active' );
-
+                
                 contents.css({ 'height': activeContent.height() });
 
             });
@@ -240,14 +240,18 @@ $( document ).ready( function() {
             */
 
             $( '.location-details-map' ).each( function() {
-
+                var panoramadiv = $('#pano');
                 var mapBox = $( this );
                 var description = mapBox.siblings( '.location-details-description' );
                 var contentSize = parseInt( mapBox.parents( 'section.location-details' ).css( 'width' ), 10 );
-
+                
                 if( contentSize < 932 ) mapBox.css({ 'height': '360px' });
-                else mapBox.css({ 'height': ( description.length == 0 ? '400px' : description.height() ) });
+                else mapBox.css({ 'height': (description.length == 0 ? '400px' : description.height()) });
 
+                if (contentSize < 932) panoramadiv.css({ 'height': '360px' });
+                else panoramadiv.css({ 'height': (description.length == 0 ? '400px' : description.height() - description.height() / 2) });
+
+                
             });
 
            /**
@@ -349,8 +353,9 @@ $( document ).ready( function() {
         };
 
         $( '.location-details-map' ).each( function() {
-
-            var mapBox = $( this );
+            
+            var mapBox = $(this);
+            var panoramadiv = $('#pano');
             var lat = mapBox.data( 'lat' );
             var lng = mapBox.data( 'lng' );
             var zoomedOut = false;
@@ -367,7 +372,10 @@ $( document ).ready( function() {
             mapBox.attr( 'id', 'google-map-'+ mapID );
 
             if( contentSize < 932 ) mapBox.css({ 'height': '360px' });
-            else mapBox.css({ 'height': ( description.length == 0 ? '400px' : description.height() ) });
+            else mapBox.css({ 'height': (description.length == 0 ? '400px' : description.height() - description.height() / 2) });
+
+            if (contentSize < 932) panoramadiv.css({ 'height': '360px' });
+            else panoramadiv.css({ 'height': (description.length == 0 ? '400px' : description.height() - description.height() / 2) });
 
             var map = new google.maps.Map( document.getElementById( 'google-map-'+ mapID ), {
                 zoom: zoom,
@@ -376,17 +384,37 @@ $( document ).ready( function() {
                 scrollwheel: false,
                 styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"saturation":-100},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"on"},{"saturation":-100},{"lightness":40}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"saturation":-10},{"lightness":30}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":-60},{"lightness":10}]},{"featureType":"landscape.natural","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":-60},{"lightness":60}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"},{"saturation":-100},{"lightness":60}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"},{"saturation":-100},{"lightness":60}]}]
             });
+            var fenway = { lat: 50.39227918995235, lng: 30.314423484237523 };
+            var panorama = new google.maps.StreetViewPanorama(
+              document.getElementById('pano'), {
+                  position: fenway,
+                  pov: {
+                      heading: 0,
+                      pitch: 0
+                  }
+              });
+            map.setStreetView(panorama);
+
+
 
             mapBox.siblings( '.location-details-map-marker' ).each( function() {
 
                 var markerLat = $( this ).data( 'lat' );
                 var markerLng = $( this ).data( 'lng' );
-                var markerType = $( this ).data( 'type' );
+                var markerType = $(this).data('type');
+                var markerTitle = $(this).data('title');
+                var markerDescription = $(this).data('description');
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<h4 style="margin-bottom: 8px;">' + markerTitle + '</h4>' + markerDescription
+                });
 
-                new google.maps.Marker({
+                var marker = new google.maps.Marker({
                     position: new google.maps.LatLng( markerLat, markerLng ),
                     icon: icons[markerType].icon,
                     map: map
+                });
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
                 });
 
             });
