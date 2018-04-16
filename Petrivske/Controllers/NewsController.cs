@@ -8,9 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using Petrivske;
 using System.IO;
+using Petrivske.Models;
+using System.Linq.Expressions;
 
 namespace Petrivske.Controllers
 {
+
+
     public class NewsController : Controller
     {
         private OldDatabase db = new OldDatabase();
@@ -32,12 +36,27 @@ namespace Petrivske.Controllers
         }
 
         // GET: News
-        public ActionResult Index(int? page, bool? showNotVisible, bool? ShowDateExpired)
+        public ActionResult Index(int? page, bool? showNotVisible, bool? ShowDateExpired, string Category)
         {
+            if (showNotVisible == null)
+                showNotVisible = false;
+            if (ShowDateExpired == null)
+                ShowDateExpired = false;
+
             if (page == null)
                 page = 0;
             ViewBag.currentPage = page;
-            return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == true && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).Skip(page.Value*4).Take(4).ToList());
+            ViewBag.showNotVisible = showNotVisible;
+            
+            ViewBag.ShowDateExpired = ShowDateExpired;
+            if (showNotVisible == true)
+                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == false));
+            //return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).Skip(page.Value*4).Take(4).ToList());
+            else
+                if (ShowDateExpired == true)
+                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && (a.dateBegin > DateTime.Now || a.dateEnd <= DateTime.Now)).OrderByDescending(a => a.dateBegin).Skip(page.Value * 4).Take(4).ToList());
+            else
+                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).Skip(page.Value * 4).Take(4).ToList());
         }
 
         // GET: News/Details/5
@@ -62,18 +81,37 @@ namespace Petrivske.Controllers
             return View(news);
         }
 
+      
+
         // POST: News/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news)
+        public ActionResult Create([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news, string[] tags)
         {
+            ApplicationDbContext newDb = new ApplicationDbContext();
             if (ModelState.IsValid)
-            {
+            {              
                 news.category = "News";
                 db.News.Add(news);
                 db.SaveChanges();
+
+                foreach (var i in tags)
+                {
+                    Tag tag = newDb.Tags.Where(a => a.Keyword == i).FirstOrDefault();
+                    if (tag == null)
+                    {
+                        tag = new Tag() { Keyword = i };
+                        newDb.Tags.Add(tag);
+                        newDb.SaveChanges();
+                    }
+                                        
+                    newDb.TagNews.Add(new TagNews() { IdNews = news.id, IdTag = tag.Id });
+                    newDb.SaveChanges();
+
+                }
+
                 return RedirectToAction("Index");
             }
 

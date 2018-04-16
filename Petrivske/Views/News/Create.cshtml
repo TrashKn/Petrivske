@@ -1,7 +1,10 @@
 ﻿@model Petrivske.News
 <script src="~/ckeditor/ckeditor.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @{
-    ViewBag.Title = "Create";
+    ViewBag.CurrentSection = "News";
+    ViewBag.Title = "Додавання новини";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="big-wrapper">
@@ -10,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <section class="form">
-                        <h2>Create</h2>
+                        <h2>Додавання новини</h2>
 
                         @using (Html.BeginForm())
                         {
@@ -39,7 +42,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.title, new { @class = "form-control", @required = "required" })
                                         @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -47,7 +50,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextAreaFor(model => model.text, new { @class = "form-control", @required = "required" })
                                         @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -55,7 +58,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.minitext, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.minitext, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextAreaFor(model => model.minitext, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                                         @Html.ValidationMessageFor(model => model.minitext, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -71,18 +74,36 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class = "control-label col-md-2">Теги</label>
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            <select class="form-control js-data-example-ajax" multiple="multiple" >
+                                                @foreach (var i in Petrivske.Models.Tag.GetAllTags())
+                                                {
+                                                    <option>@i.Keyword</option>
+                                                }
+                                                @*<option selected="selected">orange</option>
+                                                <option>white</option>
+                                                <option selected="selected">purple</option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Додати новину" class="btn btn-default" />
-                                    </div>
+                                        <a href="~/News/Index" class="btn btn-default">Скасувати</a>
+                                    </div>                                                                  
                                 </div>
                             </div>
                         }
 
                         <div>
-                            @Html.ActionLink("Back to List", "Index")
+                    
                         </div>
                     </section>
                 </div>
@@ -92,6 +113,30 @@
 </div>
 
 <script>
+    //function SetList()
+    //{
+    //    //alert($('.js-data-example-ajax').select2('data')[0].templateResult);
+    //    alert($('.js-data-example-ajax').find(':selected').html());
+    //}
+
+    $('.js-data-example-ajax').on('select2:select', function (e) {
+        var data = e.params.data.text;
+        $('form').append("<input name='tags' id='"+data+"' id='tags' value='" + data + "' type='hidden' >");
+        
+    });
+    $('.js-data-example-ajax').on('select2:unselect', function (e) {
+        var data = e.params.data.text;
+        $('#' + data).remove();
+    });
+
+
+
+   
+    $(document).ready(function () {
+        $('.js-data-example-ajax').select2({
+            tags: true
+        });
+    });
                             CKEDITOR.replace('text', {
                                 uploadUrl: '../../News/UploadImage',
                             });
