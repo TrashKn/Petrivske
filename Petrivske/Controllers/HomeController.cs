@@ -13,6 +13,11 @@ namespace Petrivske.Controllers
             return View();
         }
 
+        //public PartialViewResult GalleryPartial()
+        //{      
+        //    return PartialView();
+        //}
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

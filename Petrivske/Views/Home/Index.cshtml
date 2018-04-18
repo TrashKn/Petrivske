@@ -23,9 +23,7 @@
                     </section>
                 </div>
             </div>
-        </div>
-      
-
+        </div>      
         <div class="container">
             <div class="row content-padding">
                 <div class="col-md-5 vertical-align-middle">
@@ -157,59 +155,9 @@
                 
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <section class="gallery">
-                        <h2>Фотогалерея</h2>
-                        <ul class="gallery-filters">
-                            <li class="filter" data-filter=".gallery-filter-building">СВЯТОПЕТРІВСЬКЕ</li>
-                            <li class="filter" data-filter=".gallery-filter-building">РІЗДВЯНІ ЗУСТРІЧІ</li>
-                            <li class="filter" data-filter=".gallery-filter-interior">ДЕНЬ ЗАХИСТУ ДІТЕЙ</li>
-                            <li class="filter" data-filter=".gallery-filter-decor">ДЕНЬ СВЯТОГО МИКОЛАЯ – СВЯТО ТОРЖЕСТВА ДОБРА</li>
-                        </ul>
-                        <div class="gallery-images">
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-living">
-                                <img src="~/_assets/_img/1.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-living">
-                                <img src="~/_assets/_img/2.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-building">
-                                <img src="~/_assets/_img/3.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-decor gallery-filter-living gallery-filter-dining">
-                                <img src="~/_assets/_img/4.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-living">
-                                <img src="~/_assets/_img/5.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-decor gallery-filter-living">
-                                <img src="~/_assets/_img/6.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-decor gallery-filter-living gallery-filter-dining">
-                                <img src="~/_assets/_img/7.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-building gallery-filter-living gallery-filter-dining">
-                                <img src="~/_assets/_img/8.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-decor gallery-filter-living gallery-filter-dining">
-                                <img src="~/_assets/_img/9.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-building gallery-filter-decor">
-                                <img src="~/_assets/_img/10.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-interior gallery-filter-building">
-                                <img src="~/_assets/_img/11.jpg" class="image-data-for-parent" />
-                            </div>
-                            <div class="gallery-single-image gallery-filter-decor">
-                                <img src="~/_assets/_img/12.jpg" class="image-data-for-parent" />
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
+       @Html.Partial("GalleryPartial")
+       @*@Html.Partial("GalleryPartial", "Святопетрівське")*@
+    
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

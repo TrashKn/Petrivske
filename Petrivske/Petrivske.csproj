@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201804161736084_TagNews.Designer.cs">
       <DependentUpon>201804161736084_TagNews.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804181422388_Repair.cs" />
+    <Compile Include="Migrations\201804181422388_Repair.Designer.cs">
+      <DependentUpon>201804181422388_Repair.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Gallery.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -835,6 +839,7 @@
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\TestEditor.cshtml" />
     <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\Shared\GalleryPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -895,6 +900,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804161736084_TagNews.resx">
       <DependentUpon>201804161736084_TagNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804181422388_Repair.resx">
+      <DependentUpon>201804181422388_Repair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
