@@ -55,58 +55,7 @@
                         </div>
                     </section>                
                 </div>
-                <div class="col-md-4">
-                    <section class="sidebar">
-                        <div class="widget">
-                            <h4>Popular posts</h4>
-                            <ul class="posts-list">
-                                <li>
-                                    <a href="/blog-single.html">
-                                        <div class="images">
-                                            <div class="image">
-                                                <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Bedroom arranged in the attic" />
-                                            </div>
-                                        </div>
-                                        <span class="title">Enim ipsam voluptatem quia voluptas sit aspernatur aut</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog-single.html">
-                                        <div class="images">
-                                            <div class="image">
-                                                <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Spacious bedroom with modern furniture" />
-                                            </div>
-                                        </div>
-                                        <span class="title">Quod maxime placeat facere possimus</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog-single.html">
-                                        <div class="images">
-                                            <div class="image">
-                                                <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Furniture cushion" />
-                                            </div>
-                                        </div>
-                                        <span class="title">Am libero tempore cum soluta nobis est eligendi</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="widget">
-                            <h4>Popular tags</h4>
-                            <ul class="tagcloud">
-                                <li><a href="#">Apartment</a></li>
-                                <li><a href="#">Garden</a></li>
-                                <li><a href="#">Pool</a></li>
-                                <li><a href="#">Architecture</a></li>
-                                <li><a href="#">Gallery</a></li>
-                                <li><a href="#">Tradition</a></li>
-                                <li><a href="#">City</a></li>
-                                <li><a href="#">Inspiration</a></li>
-                            </ul>
-                        </div>
-                    </section>
-                </div>
+                @{Html.RenderAction("_NewsSidebarPartial", "News");}
             </div>
             <div class="row">
                 <div class="col-md-12">

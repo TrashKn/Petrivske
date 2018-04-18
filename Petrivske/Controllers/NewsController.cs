@@ -82,8 +82,9 @@ namespace Petrivske.Controllers
             ViewBag.showNotVisible = showNotVisible;
 
             ViewBag.ShowDateExpired = ShowDateExpired;
-            
-            return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now && (a.title.Contains(search) || a.minitext.Contains(search) || a.text.Contains(search))).OrderByDescending(a => a.dateBegin).ToList());
+
+            search = search.ToLower();
+            return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now && (a.title.ToLower().Contains(search) || a.minitext.ToLower().Contains(search) || a.text.ToLower().Contains(search))).OrderByDescending(a => a.dateBegin).ToList());
         }
 
         // GET: News/Details/5
@@ -213,6 +214,11 @@ namespace Petrivske.Controllers
             db.News.Remove(news);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public PartialViewResult _NewsSidebarPartial()
+        {
+            return PartialView();
         }
 
         protected override void Dispose(bool disposing)
