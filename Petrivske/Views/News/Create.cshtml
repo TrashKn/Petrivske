@@ -81,7 +81,7 @@
                                             <select class="form-control js-data-example-ajax" multiple="multiple" >
                                                 @foreach (var i in Petrivske.Models.Tag.GetAllTags())
                                                 {
-                                                    <option>@i.Keyword</option>
+                                                    <option value="@i.Id">@i.Keyword</option>
                                                 }
                                                 @*<option selected="selected">orange</option>
                                                 <option>white</option>
@@ -121,12 +121,13 @@
 
     $('.js-data-example-ajax').on('select2:select', function (e) {
         var data = e.params.data.text;
-        $('form').append("<input name='tags' id='"+data+"' id='tags' value='" + data + "' type='hidden' >");
-        
+        var id = e.params.data.id;
+        $('form').append("<input name='tags' id='HiddenOption_" + id + "' value='" + data + "' type='hidden' >");
+
     });
     $('.js-data-example-ajax').on('select2:unselect', function (e) {
-        var data = e.params.data.text;
-        $('#' + data).remove();
+        var id = e.params.data.id;
+        $('#HiddenOption_' + id).remove();
     });
 
 

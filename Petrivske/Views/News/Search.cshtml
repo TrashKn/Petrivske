@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<Petrivske.News>
 
 @{
-    ViewBag.Title = "Новини - сторинка " + (ViewBag.currentPage + 1);
+    ViewBag.Title = "Результати пошуку - Новини";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string showNotVisible = ViewBag.showNotVisible.ToString();
-    string ShowDateExpired = ViewBag.ShowDateExpired.ToString();
     ViewBag.CurrentSection = "News";
 }
 
@@ -13,88 +11,55 @@
     <div class="wrapper">
         <div class="container">
             <div class="row">
-                <div class="col-md-8" >
+                <div class="col-md-8">
                     <section class="blog-posts-navigation" style="border-top: none;">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <p class="prev-posts"><a href="~/News/Create" class="button"><span>Додати новину</span></a></p>
-                        }
-                        @if (Model.Count() >= 4)
-                        {
-                            if (ViewBag.currentPage != 0)
-                            {
-                            <p class="prev-posts"><a href="~/News/Index?page=@(ViewBag.currentPage - 1)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired" class="button"><span><i class="fa fa-long-arrow-left"></i></span></a></p>
-                            }
-
-                            <p class="next-posts"><a href="~/News/Index?page=@(ViewBag.currentPage + 1)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired" class="button"><span>Далі<i class="fa fa-long-arrow-right"></i></span></a></p>
-                        }
-
-
-
+                        
+                            <p class="prev-posts"><h3>Результати пошуку</h3></p>                        
+                        <h4>За запитом <strong>"@ViewBag.Search"</strong> знайдено новин: @Model.Count() </h4>
                     </section>
                     @foreach (var i in Model.OrderByDescending(a => a.dateBegin))
                     {
-                   
-                        <article class="blog-post">  
-                                          
+
+                        <article class="blog-post">
+
                             <p style="margin-bottom: 0px;">@i.dateBegin.Value.ToShortDateString()<span class="divider">&middot;</span></p>
                             <h2><a href="~/News/Deteils/@i.id">@i.title</a></h2>
                             <p>@Html.Raw(i.minitext.Replace("style=\"", "style = \"max-width: initial; "))</p>
-                            <p><a href="~/News/Deteils/@i.id" class="button"><span>Детальніше</span></a> 
+                            <p>
+                                <a href="~/News/Deteils/@i.id" class="button"><span>Детальніше</span></a>
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <a href="~/News/Edit/@i.id" class="button"><span>Редагувати</span></a>
                                     <a href="~/News/Delete/@i.id" class="button"><span>Видалити</span></a>
                                 }
-                             </p>
+                            </p>
                         </article>
                         <hr />
                     }
 
-                  
-                    <section class="blog-posts-navigation" style="border-top: none;">
-                        @if (Model.Count() >= 4)
-                        {
-                            if (ViewBag.currentPage != 0)
-                            {
-                                <p class="prev-posts"><a href="~/News/Index?page=@(ViewBag.currentPage - 1)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired" class="button"><span><i class="fa fa-long-arrow-left"></i></span></a></p>
-                            }
-                            <p class="next-posts"><a href="~/News/Index?page=@(ViewBag.currentPage + 1)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired" class="button"><span>Далі <i class="fa fa-long-arrow-right"></i></span></a></p>
-                        }
-                    </section>
+
+                   
                 </div>
                 <div class="col-md-4">
                     <section class="sidebar">
                         <div class="widget">
                             <form action="~/News/Search" method="get">
                                 <span class="search-field">
-                                    <input type="text" name="search" placeholder="Пошук"/>
+                                    <input type="text" value="@ViewBag.Search" name="search" placeholder="Пошук" />
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </span>
                             </form>
-                        </div>
-                        @{string active = "text-shadow: 0px 0px 1px #ab9364, 0 0 1em #ab9364"; }
-                        @if (User.Identity.IsAuthenticated)
-                        { 
-                            <div class="widget">
-                                <h4>Відображені новини</h4>
-                                <ul class="sidebar-menu">
-                                  
-                                    <li style="@(ViewBag.showNotVisible==false && ViewBag.ShowDateExpired ==false?active:"" )"><a href="~/News/Index?showNotVisible=false&ShowDateExpired=false&Category=@ViewBag.Category"><i class="fa fa-angle-right"></i> <span class="title">Актуальні</span> </a></li>                                
-                                    <li style="@(ViewBag.showNotVisible==true && ViewBag.ShowDateExpired ==false?active:"" )"><a href="~/News/Index?showNotVisible=true&ShowDateExpired=false&Category=@ViewBag.Category"><i class="fa fa-angle-right"></i> <span class="title">Виключені</span> </a></li>
-                                    <li style="@(ViewBag.showNotVisible==false && ViewBag.ShowDateExpired ==true?active:"" )"><a href="~/News/Index?showNotVisible=false&ShowDateExpired=true&Category=@ViewBag.Category"><i class="fa fa-angle-right"></i> <span class="title">З неактуальним терміном</span></a></li>
-                                </ul>
-                            </div>
-                        }
+                        </div>                   
                         <div class="widget">
                             <h4>Категорії</h4>
                             <ul class="sidebar-menu">
-                                <li style="@(ViewBag.Category==null?active:"" )"><a href="~/News/Index?page=@(ViewBag.currentPage)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired"><i class="fa fa-angle-right"></i> <span class="title">Всі новини</span></a></li>
+                                <li style="text-shadow: 0px 0px 1px #ab9364, 0 0 1em #ab9364"><a href="~/News/Index?search=@ViewBag.Search"><i class="fa fa-angle-right"></i> <span class="title">Результати пошуку</span><span class="count">@Model.Count()</span></a></li>
+                                <li><a href="~/News/Index?page=0"><i class="fa fa-angle-right"></i> <span class="title">Всі новини</span></a></li>
                                 @foreach (var i in Petrivske.Models.Tag.GetAllTags().OrderBy(a => a.News.Count))
-                                {                                  
+                                {
                                     if (i.News.Count != 0)
                                     {
-                                        <li style="@(ViewBag.Category==i.Id?active:"" )"><a href="~/News/Index?page=@(ViewBag.currentPage)&showNotVisible=@showNotVisible&ShowDateExpired=@ShowDateExpired&Category=@i.Id"><i class="fa fa-angle-right"></i> <span class="title">@i.Keyword</span> <span class="count">@i.News.Count</span></a></li>
+                                        <li><a href="~/News/Index?page=0&Category=@i.Id"><i class="fa fa-angle-right"></i> <span class="title">@i.Keyword</span> <span class="count">@i.News.Count</span></a></li>
                                     }
                                 }
                             </ul>

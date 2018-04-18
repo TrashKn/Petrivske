@@ -10,32 +10,18 @@ namespace Petrivske.Models
     {
         public int Id { get; set; }
         public String Keyword { get; set; }
+        public virtual ICollection<News> News { get; set; }
 
         public static List<Tag> GetAllTags()
         {
-            ApplicationDbContext db = new ApplicationDbContext();
+         
             OldDatabase oldDb = new OldDatabase();
-            var tags = db.Tags.ToList();
-            foreach (var i in tags)
-            {
-                var newsTags = db.TagNews.Where(a => a.IdTag == i.Id).ToList();
-                i.News = new List<News>();
-                foreach (var j in newsTags)
-                {
-                    i.News.Add(oldDb.News.Where(a => a.id == j.IdNews).FirstOrDefault());
-                }
-                
-            }
+            var tags = oldDb.Tags.ToList();            
             return tags;
         }
 
-        public List<News> News { get; set; }
+        
     }
 
-    public class TagNews
-    {
-        public int Id { get; set; }
-        public int IdTag { get; set; }
-        public int IdNews { get; set; }
-    }
+   
 }

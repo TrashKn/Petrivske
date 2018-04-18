@@ -36,7 +36,7 @@ namespace Petrivske.Controllers
         }
 
         // GET: News
-        public ActionResult Index(int? page, bool? showNotVisible, bool? ShowDateExpired, string Category)
+        public ActionResult Index(int? page, bool? showNotVisible, bool? ShowDateExpired, int? Category)
         {
             if (showNotVisible == null)
                 showNotVisible = false;
@@ -46,17 +46,44 @@ namespace Petrivske.Controllers
             if (page == null)
                 page = 0;
             ViewBag.currentPage = page;
-            ViewBag.showNotVisible = showNotVisible;
-            
+            ViewBag.showNotVisible = showNotVisible;            
             ViewBag.ShowDateExpired = ShowDateExpired;
+            List<News> ResultNews;
             if (showNotVisible == true)
-                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == false));
+                ResultNews = db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == false).ToList();
+                
             //return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).Skip(page.Value*4).Take(4).ToList());
             else
                 if (ShowDateExpired == true)
-                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && (a.dateBegin > DateTime.Now || a.dateEnd <= DateTime.Now)).OrderByDescending(a => a.dateBegin).Skip(page.Value * 4).Take(4).ToList());
+                ResultNews = db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && (a.dateBegin > DateTime.Now || a.dateEnd <= DateTime.Now)).OrderByDescending(a => a.dateBegin).ToList();
             else
-                return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).Skip(page.Value * 4).Take(4).ToList());
+                ResultNews = db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderByDescending(a => a.dateBegin).ToList();
+
+            if (Category != null)
+            {
+                ViewBag.Category = Category;
+                var tag = db.Tags.Find(Category);
+                ResultNews = ResultNews.Where(a => a.Tags.Contains(tag)).ToList();
+            }
+            return View(ResultNews.Skip(page.Value * 4).Take(4));
+        }
+
+
+        public ActionResult Search(string search)
+        {
+            ViewBag.Search = search;
+            bool showNotVisible = false;
+            
+            bool ShowDateExpired = false;
+
+            
+            int page = -1;
+            ViewBag.currentPage = page;
+            ViewBag.showNotVisible = showNotVisible;
+
+            ViewBag.ShowDateExpired = ShowDateExpired;
+            
+            return View(db.News.Where(a => a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == !showNotVisible && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now && (a.title.Contains(search) || a.minitext.Contains(search) || a.text.Contains(search))).OrderByDescending(a => a.dateBegin).ToList());
         }
 
         // GET: News/Details/5
@@ -89,29 +116,25 @@ namespace Petrivske.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news, string[] tags)
-        {
-            ApplicationDbContext newDb = new ApplicationDbContext();
+        {           
             if (ModelState.IsValid)
             {              
                 news.category = "News";
+                news.Tags = new List<Tag>();
+                if (tags != null)
+                    foreach (var i in tags)
+                    {
+                        Tag tag = db.Tags.Where(a => a.Keyword == i).FirstOrDefault();
+                        if (tag == null)
+                        {
+                            tag = new Tag() { Keyword = i };
+                            db.Tags.Add(tag);
+                        }
+
+                        news.Tags.Add(tag);                  
+                    }
                 db.News.Add(news);
                 db.SaveChanges();
-
-                foreach (var i in tags)
-                {
-                    Tag tag = newDb.Tags.Where(a => a.Keyword == i).FirstOrDefault();
-                    if (tag == null)
-                    {
-                        tag = new Tag() { Keyword = i };
-                        newDb.Tags.Add(tag);
-                        newDb.SaveChanges();
-                    }
-                                        
-                    newDb.TagNews.Add(new TagNews() { IdNews = news.id, IdTag = tag.Id });
-                    newDb.SaveChanges();
-
-                }
-
                 return RedirectToAction("Index");
             }
 
@@ -138,11 +161,27 @@ namespace Petrivske.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news)
+        public ActionResult Edit([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news, string[] tags)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(news).State = EntityState.Modified;
+                news.Tags = db.Tags.ToList().Where(a => a.News.Contains(news)).ToList();
+                news.category = "News";
+                news.Tags.Clear();
+              if (tags!=null)
+                    foreach (var i in tags)
+                    {
+                        Tag tag = db.Tags.Where(a => a.Keyword == i).FirstOrDefault();
+                        if (tag == null)
+                        {
+                            tag = new Tag() { Keyword = i };
+                            db.Tags.Add(tag);
+                        }
+                        //tag.News.Add(news);                    
+                        news.Tags.Add(tag);
+                    }
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -170,6 +209,7 @@ namespace Petrivske.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             News news = db.News.Find(id);
+            news.Tags.Clear();
             db.News.Remove(news);
             db.SaveChanges();
             return RedirectToAction("Index");
