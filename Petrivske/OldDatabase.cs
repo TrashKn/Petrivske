@@ -4,6 +4,7 @@ namespace Petrivske
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Petrivske.Models;
 
     public partial class OldDatabase : DbContext
     {
@@ -14,6 +15,8 @@ namespace Petrivske
 
         public virtual DbSet<Gallery> Gallery { get; set; }
         public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+      
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
