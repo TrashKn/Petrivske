@@ -1,76 +1,75 @@
 ﻿@model Petrivske.News
 
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";    
     ViewBag.CurrentSection = "News";
 }
 
-<h2>Details</h2>
+<div class="big-wrapper">
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <section class="blog-posts-navigation" style="border-top: none;">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="prev-posts"><a href="~/News/Edit/@Model.id" class="button"><span>Редагувати</span></a></p>
+                            <p class="prev-posts"><a href="~/News/Delete/@Model.id" class="button"><span>Видалити</span></a></p>
+                        }
+                        
 
-<div>
-    <h4>News</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.dateBegin)
-        </dt>
+                    </section>
+                    
+                    <article class="blog-post">
+                        <p>@Model.dateBegin.Value.ToShortDateString()</p>
+                        <h2><a href="~/News/Details/@Model.id">@Model.title</a></h2>                        
+                        <div class="blog-post-content">
+                            @Html.Raw(Model.text)
+                        </div>
+                        <div class="tags-and-categories">
+                          
+                            <p>
+                                <span class="title">Категорії:</span>
+                                @foreach (var i in Model.Tags)
+                                {
+                                    <a href="~/News/Index?Category=@i.Id" class="element">@i.Keyword</a>
+                                }
 
-        <dd>
-            @Html.DisplayFor(model => model.dateBegin)
-        </dd>
+                            </p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.dateEnd)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dateEnd)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.text)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.minitext)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.minitext)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.visible)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.visible)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.category)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.category)
-        </dd>
-
-    </dl>
+                    </article>
+                    @{Html.RenderAction("_SmilarNewsPartial", "News");}
+                </div>
+                <div class="col-md-4">
+                    <section class="sidebar">
+                        <div class="widget">
+                            <form action="~/News/Search" method="get">
+                                <span class="search-field">
+                                    <input type="text" name="search" placeholder="Пошук" />
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </span>
+                            </form>
+                        </div>                        
+                        <div class="widget">
+                            <h4>Категорії</h4>
+                            <ul class="sidebar-menu">
+                                <li><a href="~/News/Index"><i class="fa fa-angle-right"></i> <span class="title">Всі новини</span></a></li>
+                                @foreach (var i in Petrivske.Models.Tag.GetAllTags().OrderBy(a => a.News.Count))
+                                {
+                                    if (i.News.Count != 0)
+                                    {
+                                        <li><a href="~/News/Index"><i class="fa fa-angle-right"></i> <span class="title">@i.Keyword</span> <span class="count">@i.News.Count</span></a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                       @{Html.RenderAction("_SmilarNewsSidebarPartial", "News");}                      
+                    </section>
+                </div>
+            </div>
+            @Html.Partial("_FooterPartial")
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

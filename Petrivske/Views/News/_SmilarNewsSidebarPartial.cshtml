@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Petrivske.News>
+
+<div class="widget">
+    <h4>Цікаві новини</h4>
+    <ul class="posts-list">
+        @foreach (var i in Model)
+        {
+        <li>
+            <a href="~/News/Details">
+                @if (Model.First().minitext.Contains("<img"))
+                {
+                    try
+                    {
+                        int beginImg = i.minitext.IndexOf("<img");
+                        int beginSrc = i.minitext.IndexOf("src=\"", beginImg);
+                        int lastSrc = i.minitext.IndexOf("\"", beginSrc + 5);
+
+                    <div class="images">
+                        <div class="image">
+                            <img src="@i.minitext.Substring(beginSrc + 5, lastSrc - beginSrc - 5).ToLower()" class="image-data-for-parent" alt="@i.title" />
+                        </div>
+                    </div>
+                    }
+                    catch { }
+                }
+
+                <span class="title">@i.title</span>
+            </a>
+        </li>
+        }
+    </ul>
+</div>

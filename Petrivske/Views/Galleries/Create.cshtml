@@ -1,0 +1,82 @@
+﻿@model Petrivske.Models.Gallery
+
+@{
+    ViewBag.Title = "Додавання галереї";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.CurrentSection = "Admins";
+}
+<div class="big-wrapper">
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="form">
+                        <h2>Додавання галереї</h2>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+            
+                              
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                             
+                                <hr />
+                                <div id="imageBody"></div>
+                                <div class="control-label col-md-2">
+                                    <b>Додати зображення</b>
+                                </div>
+                                <div class="col-md-5">
+                                    <input id="Image1Url" name="Image1Url" type="file" onchange="ImageChange(1)" style="float: left;" />
+                                </div>
+                                <br />
+                                <hr />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Create" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function RemoveRow(V, imageurl)
+    {
+        $("#Row_" + V).remove();
+    }
+
+    var CurrentRow = 0;
+
+    function ImageChange(n) {
+        var file = $('#Image1Url').get(0).files[0];
+        var fileData = new FormData();
+        fileData.append(file.name, file);
+        $.ajax({
+            url: '/Galleries/UploadImage', //куда отправляем запрос (в какой actio-метод какого контроллера)
+            type: "POST", //типа
+            data: fileData, //форма с данными
+            //чтобы протокол HTTP не исказил передаваемый файл, отключаем все флаги преобразований
+            contentType: false, //тип данных не указан
+            processData: false, //данные не нужно обрабатывать
+            success: function (result) {
+                var html = "<div id='Row_" + CurrentRow + "'><input type='hidden' name='ImageUrl' value='" + result + "'><img src='../../GalleryImages/" + result + "' /><br><br><div style='cursor: pointer; float: right;' class='btn btn-default' onclick='RemoveRow(" + CurrentRow + ",\"" + result + "\")'>Видалити це зображення</div></div><br><br><hr/>";
+                $('#imageBody').append(html);
+                CurrentRow++;
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        })
+    }
+</script>

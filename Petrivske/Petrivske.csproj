@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GalleriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -183,7 +184,6 @@
     <Compile Include="Migrations\201804161736084_TagNews.Designer.cs">
       <DependentUpon>201804161736084_TagNews.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Gallery.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -243,8 +243,13 @@
     <Compile Include="Migrations\201804111503383_check.Designer.cs">
       <DependentUpon>201804111503383_check.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804200612418_Gallery.cs" />
+    <Compile Include="Migrations\201804200612418_Gallery.Designer.cs">
+      <DependentUpon>201804200612418_Gallery.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Gallery.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Page.cs" />
@@ -839,9 +844,17 @@
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\News\_NewsSidebarPartial.cshtml" />
     <Content Include="Views\News\Search.cshtml" />
+    <Content Include="Views\News\_SmilarNewsPartial.cshtml" />
+    <Content Include="Views\News\_SmilarNewsSidebarPartial.cshtml" />
+    <Content Include="Views\Galleries\Create.cshtml" />
+    <Content Include="Views\Galleries\Delete.cshtml" />
+    <Content Include="Views\Galleries\Details.cshtml" />
+    <Content Include="Views\Galleries\Edit.cshtml" />
+    <Content Include="Views\Galleries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="GalleryImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -899,6 +912,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804161736084_TagNews.resx">
       <DependentUpon>201804161736084_TagNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804200612418_Gallery.resx">
+      <DependentUpon>201804200612418_Gallery.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

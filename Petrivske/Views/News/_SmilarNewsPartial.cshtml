@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Petrivske.News>
+
+<section class="similar-posts">
+    <h3>Популярні новини</h3>
+    <div class="posts">
+        <div class="left">
+            <a href="~/News/Details/@Model.First().id">
+               
+                @try
+                {
+                    if (Model.First().minitext.Contains("<img"))
+                    {
+                        int beginImg = Model.First().minitext.IndexOf("<img");
+                        int beginSrc = Model.First().minitext.IndexOf("src=\"", beginImg);
+                        int lastSrc = Model.First().minitext.IndexOf("\"", beginSrc + 5);
+                        <div class="images">
+                            <div class="image">
+                                <img src="@Model.First().minitext.Substring(beginSrc + 5, lastSrc - beginSrc - 5).ToLower()" class="image-data-for-parent" alt="@Model.First().title" />
+                            </div>
+                        </div>
+
+                    }
+                }
+                catch { }
+                <h4>@Model.First().title</h4>
+               
+            </a>
+        </div>
+        <div class="right">
+            <a href="~/News/Details/@Model.Last().id">
+              
+                 @if (Model.Last().minitext.Contains("<img"))
+                 {
+                     int beginImg = Model.Last().minitext.IndexOf("<img");
+                     int beginSrc = Model.Last().minitext.IndexOf("src=\"", beginImg);
+                     int lastSrc = Model.Last().minitext.IndexOf("\"", beginSrc + 5);
+                    <div class="images">
+                        <div class="image">
+                            <img src="@Model.Last().minitext.Substring(beginSrc + 5, lastSrc - beginSrc - 5).ToLower()" class="image-data-for-parent" alt="@Model.Last().title" />
+                        </div>
+                    </div>
+                 }
+                <h4>@Model.Last().title</h4>
+                  
+                 
+            </a>
+        </div>
+    </div>
+</section>

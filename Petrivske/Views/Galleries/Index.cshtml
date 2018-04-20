@@ -1,31 +1,24 @@
-﻿@model IEnumerable<Petrivske.Models.ApplicationUser>
+﻿@model IEnumerable<Petrivske.Models.Gallery>
 
 @{
-    ViewBag.Title = "Управління адміністраторами";
+    ViewBag.Title = "Управління галереєю";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.CurrentSection = "Admins";
 }
-
 <div class="big-wrapper">
     <div class="wrapper">
         <div class="container">
             <div class="col-md-12">
                 <section class="form">
-                    <h2>Управління адміністраторами</h2>
-
+                    <h2>Управління галереєю</h2>
 
                     <p>
-                        @Html.ActionLink("Додати нового адміністратора", "Register")
+                        @Html.ActionLink("Додати нову галереєю", "Create")
                     </p>
                     <table class="table">
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Email)
-                            </th>
-
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.Title)
                             </th>
                             <th></th>
                         </tr>
@@ -34,11 +27,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.Title)
                                 </td>
                                 <td>
                                     @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
