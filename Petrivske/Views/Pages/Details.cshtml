@@ -8,17 +8,19 @@
 <div class="big-wrapper" style="margin-top:190px">
     <div class="wrapper">
         <div class="container">
-            @*<div class="row">
-                <div class="col-md-12">
-                    <div class="images">
-                        <div class="image">
-                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Spacious bedroom with modern furniture" />
-                        </div>
-                    </div>
-                </div>
-            </div>*@
+
             <div class="row">
                 <div class="col-md-8">
+
+                    <section class="blog-posts-navigation" style="border-top: none;">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="prev-posts"><a href="~/Pages/Edit/@Model.Id" class="button"><span>Редагувати сторінку</span></a></p>
+                        }
+                       
+
+                    </section>
+
                     <article class="blog-post">
                         <h2><a href="/blog-single.html">@Model.Title</a></h2>
                       
@@ -30,74 +32,11 @@
                 </div>
                 @{Html.RenderAction("_NewsSidebarPartial", "News");}
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <footer>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-9 vertical-align-middle">
-                                    <nav>
-                                        <ul class="menu">
-                                            <li>
-                                                <a href="/index.html">Pages</a>
-                                                <ul>
-                                                    <li><a href="/index.html">Home</a></li>
-                                                    <li><a href="/property-details.html">Property details</a></li>
-                                                    <li><a href="/blog.html">News</a></li>
-                                                    <li><a href="/about-agent.html">About agent</a></li>
-                                                    <li><a href="/contact.html">Contact</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#">Find us!</a>
-                                                <ul>
-                                                    <li><a href="#">Facebook</a></li>
-                                                    <li><a href="#">Google+</a></li>
-                                                    <li><a href="#">Twitter</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="col-md-3 vertical-align-middle">
-                                    <p>2016 &copy; <a href="/index.html">Luxury Apartaments</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
-            </div>
+            @Html.Partial("_FooterPartial")
         </div>
     </div>
 </div>
 
 
-@*<h2>Details</h2>
 
-<div>
-    <h4>Page</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
 

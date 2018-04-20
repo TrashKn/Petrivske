@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Petrivske.Models.Rishennya>
+
+@{
+    ViewBag.Title = "RishennyaList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="big-wrapper">
+    <div class="wrapper">
+        <div class="container">
+
+            <div class="col-md-12">
+                <div class="col-md-8">
+
+                    <section class="blog-posts-navigation" style="border-top: none;">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="prev-posts"><a href="~/Rishennya/Create" class="button"><span>Ввести нове рішення</span></a></p>
+                        }
+                    </section>
+
+                    <section class="form">
+                        <h2>Прийняті рішення ради</h2>
+
+                        <table class="table">
+
+
+                            @foreach (var item in Model)
+            {
+                                <tr>
+                                    <td>
+                                        <a href="~/Rishennya/Details/@item.Id">Рішення №@item.Number від @item.Date.ToShortDateString() "@item.Name"</a>
+                                    </td>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+                                        </td>
+                                    }
+                                </tr>
+                            }
+
+                        </table>
+                    </section>
+
+                    <section class="similar-posts">
+                        <h3>Similar posts</h3>
+                        <div class="posts">
+                            <div class="left">
+                                <a href="/blog-single.html">
+                                    <div class="images">
+                                        <div class="image">
+                                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Spacious apartment in modern style" />
+                                        </div>
+                                    </div>
+                                    <h4>Am libero tempore, cum soluta nobis est eligendi optio cumque dolorem eum fugiat</h4>
+                                </a>
+                            </div>
+                            <div class="right">
+                                <a href="/blog-single.html">
+                                    <div class="images">
+                                        <div class="image">
+                                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Domestic area for relax" />
+                                        </div>
+                                    </div>
+                                    <h4>Et harum quidem rerum facilis est et expedita distinctio</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                @{Html.RenderAction("_NewsSidebarPartial", "News");}
+            </div>
+
+
+            @Html.Partial("_FooterPartial")
+        </div>
+    </div>
+</div>
+
+

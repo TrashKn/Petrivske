@@ -10,7 +10,7 @@ using Petrivske.Models;
 
 namespace Petrivske.Controllers
 {
-    public class RishennyasController : Controller
+    public class RishennyaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -25,12 +25,6 @@ namespace Petrivske.Controllers
         //{
         //    return View(UserManager.Users.Where(a => a.IsDelete == false).ToList());
         //}
-
-        // GET: /Rishennya/RishennyaList
-        public ActionResult RishennyaList()
-        {
-            return View(db.Rishennyas.ToList());
-        }
 
         // GET: Rishennyas/Details/5
         public ActionResult Details(int? id)
@@ -64,7 +58,7 @@ namespace Petrivske.Controllers
             {
                 db.Rishennyas.Add(rishennya);
                 db.SaveChanges();
-                return RedirectToAction("RishennyaList");
+                return RedirectToAction("Index");
             }
 
             return View(rishennya);

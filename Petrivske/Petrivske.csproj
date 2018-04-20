@@ -175,7 +175,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
-    <Compile Include="Controllers\RishennyasController.cs" />
+    <Compile Include="Controllers\RishennyaController.cs" />
     <Compile Include="Migrations\201804161209345_AddTags.cs" />
     <Compile Include="Migrations\201804161209345_AddTags.Designer.cs">
       <DependentUpon>201804161209345_AddTags.cs</DependentUpon>
@@ -184,6 +184,11 @@
     <Compile Include="Migrations\201804161736084_TagNews.Designer.cs">
       <DependentUpon>201804161736084_TagNews.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804200757329_DeleteTextMigration.cs" />
+    <Compile Include="Migrations\201804200757329_DeleteTextMigration.Designer.cs">
+      <DependentUpon>201804200757329_DeleteTextMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gallery.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -828,12 +833,11 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Pages\Details.cshtml" />
     <Content Include="Views\Pages\Edit.cshtml" />
-    <Content Include="Views\Rishennyas\Create.cshtml" />
-    <Content Include="Views\Rishennyas\Delete.cshtml" />
-    <Content Include="Views\Rishennyas\Details.cshtml" />
-    <Content Include="Views\Rishennyas\Edit.cshtml" />
-    <Content Include="Views\Rishennyas\Index.cshtml" />
-    <Content Include="Views\Rishennyas\RishennyaList.cshtml" />
+    <Content Include="Views\Rishennya\Create.cshtml" />
+    <Content Include="Views\Rishennya\Delete.cshtml" />
+    <Content Include="Views\Rishennya\Details.cshtml" />
+    <Content Include="Views\Rishennya\Edit.cshtml" />
+    <Content Include="Views\Rishennya\Index.cshtml" />
     <Content Include="Views\News\Delete.cshtml" />
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
@@ -915,6 +919,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804200612418_Gallery.resx">
       <DependentUpon>201804200612418_Gallery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804200757329_DeleteTextMigration.resx">
+      <DependentUpon>201804200757329_DeleteTextMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
