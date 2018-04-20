@@ -12,8 +12,7 @@ namespace Petrivske
             : base("name=OldDatabase")
         {
         }
-
-        public virtual DbSet<Gallery> Gallery { get; set; }
+        
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
       
