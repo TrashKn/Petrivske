@@ -86,9 +86,10 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                 <li>
-                                    <a href="/#">Управління сайтом<i class="fa fa-caret-down"></i></a>
+                                    <a href="/#" class="@(ViewBag.CurrentSection=="Admins"?"current-menu-item":"")">Управління сайтом<i class="fa fa-caret-down"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="~/Account/UserList">Адміністратори</a></li>
+                                        <li><a href="~/Galleries/Index">Галерея</a></li>
                                         <li>
                                             <a href="/#">Управління сайтом<i class="fa fa-caret-down"></i></a>
                                             <ul class="sub-menu">

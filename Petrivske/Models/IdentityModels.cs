@@ -36,8 +36,10 @@ namespace Petrivske.Models
             return new ApplicationDbContext();
         }
 
-            public virtual DbSet<Page> Pages { get; set; }
-         
+        public virtual DbSet<Page> Pages { get; set; }
+        public virtual DbSet<Gallery> Galleries { get; set; }
+        public virtual DbSet<GalleryItem> GalleryItems { get; set; }
+
 
 
         public virtual System.Data.Entity.DbSet<Petrivske.Models.Rishennya> Rishennyas { get; set; }

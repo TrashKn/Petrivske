@@ -19,6 +19,7 @@ namespace Petrivske.Controllers
     {
         private OldDatabase db = new OldDatabase();
 
+        [Authorize]
         public string UploadImage(HttpPostedFileBase upload)
         {            
             if (Request.Files.Count > 0)
@@ -103,6 +104,7 @@ namespace Petrivske.Controllers
         }
 
         // GET: News/Create
+        [Authorize]
         public ActionResult Create()
         {
             News news = new News() { dateBegin = DateTime.Now, dateEnd = DateTime.Now.AddYears(5), category="News", visible=true };
@@ -116,6 +118,7 @@ namespace Petrivske.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news, string[] tags)
         {           
             if (ModelState.IsValid)
@@ -143,6 +146,7 @@ namespace Petrivske.Controllers
         }
 
         // GET: News/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -162,6 +166,7 @@ namespace Petrivske.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "id,dateBegin,dateEnd,title,text,minitext,visible,category")] News news, string[] tags)
         {
             if (ModelState.IsValid)
@@ -190,6 +195,7 @@ namespace Petrivske.Controllers
         }
 
         // GET: News/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -207,6 +213,7 @@ namespace Petrivske.Controllers
         // POST: News/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             News news = db.News.Find(id);
@@ -219,6 +226,16 @@ namespace Petrivske.Controllers
         public PartialViewResult _NewsSidebarPartial()
         {
             return PartialView();
+        }
+
+        public PartialViewResult _SmilarNewsPartial()
+        {
+            return PartialView(db.News.Where(a => a.title!=null && a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == true && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderBy(r => Guid.NewGuid()).Take(2).ToList());
+        }
+
+        public PartialViewResult _SmilarNewsSidebarPartial()
+        {
+            return PartialView(db.News.Where(a => a.title != null && a.id != 6 && (a.id < 171 || a.id > 181) && a.visible == true && a.dateBegin <= DateTime.Now && a.dateEnd > DateTime.Now).OrderBy(r => Guid.NewGuid()).Take(5).ToList());
         }
 
         protected override void Dispose(bool disposing)

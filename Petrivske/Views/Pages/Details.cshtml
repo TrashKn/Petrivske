@@ -23,39 +23,12 @@
 
                     <article class="blog-post">
                         <h2><a href="/blog-single.html">@Model.Title</a></h2>
-                        <div class="facebook-like-share-button">
-                            <div class="fb-like" data-href="https://facebook.com/envato" data-layout="box_count" data-action="like" data-size="small" data-show-faces="false" data-share="false">
-                            </div>
-                        </div>
+                      
                         <div class="blog-post-content">
                            <p>@Html.Raw(Model.Content)</p>
                         </div>
                     </article>
-                    <section class="similar-posts">
-                        <h3>Similar posts</h3>
-                        <div class="posts">
-                            <div class="left">
-                                <a href="/blog-single.html">
-                                    <div class="images">
-                                        <div class="image">
-                                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Spacious apartment in modern style" />
-                                        </div>
-                                    </div>
-                                    <h4>Am libero tempore, cum soluta nobis est eligendi optio cumque dolorem eum fugiat</h4>
-                                </a>
-                            </div>
-                            <div class="right">
-                                <a href="/blog-single.html">
-                                    <div class="images">
-                                        <div class="image">
-                                            <img src="_assets/_img/image.png" class="image-data-for-parent" alt="Domestic area for relax" />
-                                        </div>
-                                    </div>
-                                    <h4>Et harum quidem rerum facilis est et expedita distinctio</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </section>                
+                    @{Html.RenderAction("_SmilarNewsPartial", "News");}       
                 </div>
                 @{Html.RenderAction("_NewsSidebarPartial", "News");}
             </div>
