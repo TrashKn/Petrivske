@@ -188,7 +188,10 @@
     <Compile Include="Migrations\201804200757329_DeleteTextMigration.Designer.cs">
       <DependentUpon>201804200757329_DeleteTextMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Gallery.cs" />
+    <Compile Include="Migrations\201804201555149_Ceckin.cs" />
+    <Compile Include="Migrations\201804201555149_Ceckin.Designer.cs">
+      <DependentUpon>201804201555149_Ceckin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -922,6 +925,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804200757329_DeleteTextMigration.resx">
       <DependentUpon>201804200757329_DeleteTextMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804201555149_Ceckin.resx">
+      <DependentUpon>201804201555149_Ceckin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
