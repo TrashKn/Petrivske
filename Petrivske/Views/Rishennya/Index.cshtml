@@ -1,36 +1,48 @@
-﻿@model Petrivske.Models.Page
+﻿@model IEnumerable<Petrivske.Models.Rishennya>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "RishennyaList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="big-wrapper" style="margin-top:190px">
+<div class="big-wrapper">
     <div class="wrapper">
         <div class="container">
 
-            <div class="row">
+            <div class="col-md-12">
                 <div class="col-md-8">
 
                     <section class="blog-posts-navigation" style="border-top: none;">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <p class="prev-posts"><a href="~/Pages/Edit/@Model.Id" class="button"><span>Редагувати сторінку</span></a></p>
+                            <p class="prev-posts"><a href="~/Rishennya/Create" class="button"><span>Ввести нове рішення</span></a></p>
                         }
-                       
-
                     </section>
 
-                    <article class="blog-post">
-                        <h2><a href="/blog-single.html">@Model.Title</a></h2>
-                        <div class="facebook-like-share-button">
-                            <div class="fb-like" data-href="https://facebook.com/envato" data-layout="box_count" data-action="like" data-size="small" data-show-faces="false" data-share="false">
-                            </div>
-                        </div>
-                        <div class="blog-post-content">
-                           <p>@Html.Raw(Model.Content)</p>
-                        </div>
-                    </article>
+                    <section class="form">
+                        <h2>Прийняті рішення ради</h2>
+
+                        <table class="table">
+
+
+                            @foreach (var item in Model)
+            {
+                                <tr>
+                                    <td>
+                                        <a href="~/Rishennya/Details/@item.Id">Рішення №@item.Number від @item.Date.ToShortDateString() "@item.Name"</a>
+                                    </td>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+                                        </td>
+                                    }
+                                </tr>
+                            }
+
+                        </table>
+                    </section>
+
                     <section class="similar-posts">
                         <h3>Similar posts</h3>
                         <div class="posts">
@@ -55,15 +67,15 @@
                                 </a>
                             </div>
                         </div>
-                    </section>                
+                    </section>
                 </div>
                 @{Html.RenderAction("_NewsSidebarPartial", "News");}
             </div>
+
+
             @Html.Partial("_FooterPartial")
         </div>
     </div>
 </div>
-
-
 
 

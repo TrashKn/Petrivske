@@ -13,6 +13,10 @@
 
                         <script src="~/ckeditor/ckeditor.js"></script>
 
+                        <section class="blog-posts-navigation" style="border-top: none;">                           
+                        <p class="prev-posts"><a href="~/Pages/Details/@Model.Id" class="button"><span>Закінчити редагування без збереження</span></a></p>                   
+                        </section>
+
                         <h2>Редагування сторінки "@Model.Title"</h2>
 
                         @using (Html.BeginForm())
@@ -62,7 +66,7 @@
                     </section>
                 </div>
             </div>
-
+            @Html.Partial("_FooterPartial")
         </div>
     </div>
 </div>
